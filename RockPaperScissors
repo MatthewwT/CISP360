@@ -1,0 +1,115 @@
+/***************************************************************
+//Program file name: "hw6_RockPaperScissorsGame"
+//Program description: 
+****************************************************************/
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <string>
+using namespace std;
+
+int main()
+{
+	
+	unsigned seed = time(0);
+	srand(seed);
+	
+
+
+while(true)
+{
+	int comp_num, p_num;
+	string comp_choice, p_choice;
+	char again;
+	comp_num = rand() % 3 + 1;
+	
+	if(comp_num == 1)
+	{
+		comp_choice = "Rock";
+	}
+		else if(comp_num == 2)
+		{
+			comp_choice = "Paper";
+		}
+		else
+		{
+			comp_choice = "Scissors";
+		}
+
+	cout << "Game Menu\n";
+	cout << "----------\n";
+	cout << "1) Rock\n";
+	cout << "2) Paper\n";
+	cout << "3) Scissors\n";
+	cout << "4) Quit\n\n";
+	cout << "Enter your choice: " << p_choice;
+	cin >> p_num;
+	
+		if(p_num == 1)
+	{
+		p_choice = "Rock";
+	}
+		else if(p_num == 2)
+		{
+			p_choice = "Paper";
+		}
+		else if(p_num == 3)
+		{
+			p_choice = "Scissors";
+		}
+		else if (p_num == 4)
+		{
+			cout << "Thank you for playing!\n\n";
+			{
+				break;
+			}
+		}
+		else 
+		{
+			cout << "Please enter a number 1-4.\n";
+		}
+	
+	cout << "The computer chose: " << comp_choice << endl;
+	cout << "You chose: " << p_choice << endl;
+	
+	if(comp_choice == "Rock" && p_choice == "Rock") 
+	{
+	cout << "It was a tie!\n\n";
+	} 
+		else if (comp_choice == "Rock" && p_choice == "Scissors") 
+		{
+		    cout << "The computer won! Better luck next time!\n\n";
+		} 
+		else if (comp_choice == "Paper" && p_choice == "Paper") 
+		{
+		    cout << "It was a tie!\n\n";
+		} 
+		else if (comp_choice == "Paper" && p_choice == "Rock") 
+		{
+		   cout << "The computer won! Better luck next time!\n\n";
+		} 
+		else if (comp_choice == "Scissors" && p_choice == "Scissors") 
+		{
+		    cout << "It was a tie!\n\n";
+		} 
+		else if (comp_choice == "Scissors" && p_choice == "Paper") 
+		{
+		    cout << "The computer won! Better luck next time!\n\n";
+		} 
+		else 
+		{
+		    cout << "Congrats! You won!\n\n";
+		}
+
+	cout << "Would you like to play again? (Y/N)" << flush;
+	cin >> again;
+	
+	if(again == 'n' || again == 'N')
+	{
+		cout << "Thank you for playing!\n";
+		break;
+	}
+
+}
+	return 0;
+}
