@@ -1,0 +1,104 @@
+/***************************************************************
+//Program file name: hw_9 Sorting_Orders
+//Program description: 
+****************************************************************/
+#include <iostream>
+using namespace std;
+
+void bub_sort(int [], int);
+void sel_sort(int [], int);
+void showThao(int [], int);
+void ashowThao(int [], int);
+
+int main() 
+{
+  int thao[8] = {100, 120, 105, 110, 170, 150, 151, 101};
+  int athao[8] = {100, 120, 105, 110, 170, 150, 151, 101};
+
+  cout << "Original array... \n";
+  showThao(thao, 8);
+  cout << endl << endl;
+  
+  cout << "Now performing bubble sort..." << endl;
+  cout << "--------------------------------" << endl;
+  bub_sort(thao, 8);
+  cout << endl;
+  cout << "End result..." << endl;
+  showThao(athao, 8);
+  cout << "\n\n\n";
+  
+  cout << "Original array... \n";
+  ashowThao(athao, 8);
+  cout << endl << endl;
+  cout << "Now performing selection sort..." << endl;
+  cout << "--------------------------------" << endl;
+  sel_sort(athao, 8);
+  cout << endl;
+  cout << "End result..." << endl;
+  ashowThao(athao, 8);
+  
+  return 0;
+}
+
+void bub_sort(int hmong[], int size)
+{
+  bool swap;
+  int temp;
+
+  do
+  {
+    swap = false;
+    for (int i = 0; i < (size); i++)
+    {
+      if (hmong[i] > hmong[i + 1])
+      {
+        temp =  hmong[i];
+        hmong[i] = hmong[i + 1];
+        hmong[i + 1] = temp;
+        swap = true;
+      }
+      cout << hmong[i] << " ";
+    } cout << endl;
+  } while (swap);
+}
+
+void sel_sort(int ahmong[], int size)
+{
+  int pos, min_pos, minValue;
+  for (pos = 0; pos < (size - 1); pos++)
+  {
+    min_pos = pos;
+    minValue = ahmong[pos];
+    for (int seek = pos + 1; seek < size; seek++)
+    {
+      if (ahmong[seek] < minValue)
+      {
+        minValue = ahmong[seek];
+        min_pos = seek;
+      }
+    }
+    // swap here
+    ahmong[min_pos] = ahmong[pos];
+    ahmong[pos] = minValue; //minValue is the temp
+    ashowThao(ahmong, size);
+    cout << endl;
+  }
+}
+
+void showThao(int array[], int size)
+{
+  for (int i = 0; i < size; i++)
+  {
+    cout << array[i] << " ";
+
+  }
+}
+
+void ashowThao(int array[], int size)
+{
+  for (int i = 0; i < size; i++)
+  {
+    cout << array[i] << " ";
+
+  }
+}
