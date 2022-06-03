@@ -1,0 +1,368 @@
+/*********************************************************************************
+//Final Group Project –Theatre Seating System
+***********************************************************************/
+//Program file name: Theatre Seating system- Final_Group Project.cpp
+
+
+
+  /*
+
+This program should be designed and written by a team of students. Here are some suggestions:
+o One student should design function main, which will call the other functions in the program. The remainder of the functions will be designed by other members of the team.
+o The requirements of the program should be analyzed so each student is given about the same work load.
+o The parameters and return types of each function should be decided in advance. o The program can be implemented as a multi-file program, or all the functions can
+be cut and pasted into the main file.
+Here is the assignment: Write a program that can be used by a small theater to sell tickets for performances. The theater’s auditorium has 15 rows of seats, with 30 seats in each row. The program should display a screen that shows which seats are available and which are taken. For example, the following screen shows a chart depicting each seat in the theater. Seats that are taken are represented by an * symbol, and seats that are available are represented by a # symbol:
+Row 1
+Row 2
+Row 3
+Row 4
+Row 5
+Row 6
+Row 7
+Row 8
+Row 9
+Row 10
+Row 11
+Row 12
+Row 13
+Row 14
+Row 15
+          Seats
+123456789012345678901234567890
+***###***###*########*****####
+####*************####*******##
+**###**********########****###
+**######**************##******
+********#####*********########
+##############************####
+#######************###########
+************##****############
+#########*****############****
+#####*************############
+#**********#################**
+#############********########*
+###***********########**######
+##############################
+##############################
+Here is a list of tasks this program must perform:
+o When the program begins, it should ask the user to enter the seat prices for each row. The prices can be stored in a separate array. (Alternatively, the prices may be read from a file.)
+o Once the prices are entered, the program should display a seating chart similar to the one shown above. The user may enter the row and seat numbers for tickets being sold. Every time a ticket or group of tickets is purchased, the program should display the total tickets and price for the purchased and then update the seating chart.
+o The program should keep a total of all ticket sales. The user should be given an option of viewing this amount.
+o The program should also give the user an option to see a list of how many seats have been sold, how many seats are available in each row, and how many seats are available in the entire auditorium.
+Input Validation: When tickets are being sold, do not accept row or seat numbers that do not exist. When someone requests a particular seat, the program should make sure that seat is available before it is sold.
+
+*/
+
+#include <iostream>
+#include<string>
+#include<fstream>
+#include<iomanip>
+#include<cstdlib>
+using namespace std;
+const char EMPTY = '#';
+const char FULL='*';
+const int ROWS=15;
+const int COLS=30;
+double price;
+char seats [ROWS][COLS];
+double total=0;
+int seat=450;
+int seat2=0;
+void displayseats();
+double ticketpurchase(double [], int, double);
+double ticketsales(double price[], int nRow, double cost, double total);
+double ticketsales2(double price[], int nRow, double cost, double total);
+
+void bub_sort(int sales1[], int size);
+ 
+int main() 
+{
+//making 15 rows and 30 seats each row
+int prices[ROWS][COLS]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+                        
+//main logo
+cout<<"\t\t\t\t ---------------------------------"<<endl;
+cout<<"\t\t\t\t *********************************"<<endl;
+cout<<"\t\t\t\t   Welcome to Sacramento theatre"<<endl;
+cout<<"\t\t\t\t ---------------------------------"<<endl;
+cout<<"\t\t\t\t *********************************"<<endl;
+
+cout<<endl;
+//When the program begins, it should ask the user to enter the seat prices for each row. The prices can be stored in a separate array. (Alternatively, the prices may be read from a file.)
+
+//sets price per row
+const int nRow = 15;
+double price[nRow];
+
+ifstream input;
+input.open("prices.txt");
+for (int seat = 0; seat <=ROWS+1; seat++)
+  {
+    //cout << "Please enter the price for row " << (seat + 1) << ": ";
+    input >> price[seat];			   
+  }
+
+for (int i = 1; i <=ROWS; i++)
+  {
+    for (int j = 1; j <=COLS; j++)
+    seats [i][j] = EMPTY;
+  }
+
+int choice;
+double cost;
+cout<<endl;
+int seat1[30];
+
+cout<<endl;
+do
+{
+  cout<<endl;
+  cout<<"Please select menu options."<<endl;
+  cout<<endl;
+  cout<<  "Main Menu"<<endl;
+  cout << "-----------------------------------";
+  cout << "\n\n 1. View the available seats.\n";
+  cout << " 2. View the prices of each seat.\n";
+  cout << " 3. Purchase ticket.\n";
+  cout << " 4. View the ticket sales.\n";
+  cout << " 5. Quit the program.\n";
+  cout << "___________________________________\n\n";
+  cout << "Please enter your choice: ";
+  cin >> choice;
+  cout << endl << endl;
+
+
+  int sales1[5]={5,8,15,12,7};
+         int *array;  
+         array=sales1;
+        
+
+  switch(choice)
+  {
+    case 1: 
+      cout<<"Display the seating chart\n";
+      displayseats();
+      break;
+
+    case 2:
+      cout<<"View prices of each seat\n";
+      for (int seat = 0; seat < ROWS; seat++)
+        {
+          cout << "The price for row " << (seat + 1) << ": ";
+          cout<<fixed<<setprecision(2) << price[seat] << endl;
+        }
+      break;
+    
+    case 3:
+      cout << "Purchase a ticket\n\n";
+      cost=ticketpurchase(price,nRow,total);
+
+      break;
+
+    case 4:
+        cout<<" View ticket sales today \n";
+        for(int seat=0; seat<5;seat++){
+          
+        cout<<"Row "<<*array++<<" has 40 % off today"<<endl;   
+        bub_sort(sales1, 5);
+         
+        }
+          break;
+
+    case 5:
+    cout<<"Thank You!\n";
+
+    break;
+
+    default:cout<<"Invalid Option!"<<"Please select 1,2,3,4 or 5 for options.";
+
+  }
+} while (choice != 5);
+  return 0;
+}
+
+//Seats that are taken are represented by an * symbol, and seats that are available are represented by a # symbol:
+
+void displayseats()
+{
+
+
+  cout<<"\t\t\t\t\t\t\t\t\tSeats Empty= # "<<endl;
+  cout<<"\t\t\t\t\t\t\t\t\tSeats Taken= * \n\n\n"<<endl;
+  
+ cout << "\t\t\t\t\t\t\t\t\t\t\tSeats" << endl;
+  cout << "        1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19  20\n";
+  for (int count = 1; count <=15; count++)
+    {
+    	cout << endl << "Row " << (count);
+    	for (int count2 = 1; count2 <=20; count2++)
+    		{
+    			cout << "   " <<  seats[count][count2];
+    		}
+  	}
+    cout << endl;
+}
+
+
+/*
+The program should keep a total of all ticket sales. The user should be given an option of viewing this amount.
+*/
+
+double ticketpurchase(double price[],int nRow,double total)
+{
+double tickettotal;
+  int row1, column1;
+  double cost=0;
+  
+  int answer,quit;
+  do
+  {
+    cout<<"Please select the row you would like to sit in: ";
+    cin>>row1;
+    cout<<"Please select the column you would like to sit in: ";
+    cin>>column1;
+
+    if(seats[row1][column1]=='*')
+    {
+      cout<<"Sorry that seat is sold-out, Please select a new seat.";
+      cout<<endl;
+    }
+    else 
+    {      
+        cost+=price[row1];
+        
+        cout<<"That ticket costs: "<<cost<<endl;
+        cout<<"Add another Purchase? Enter(1=YES/ 2=NO)";
+        cin>>answer;
+        seat=seat-answer;
+        seat2+=answer;
+
+        if(answer==2)
+        {
+          cout<<"Your ticket purchase has been confirmed."<<endl;
+          seats[row1][column1]=FULL;
+          quit=0;
+            }
+        else if(answer==1)
+        {
+            quit=1;
+          }
+			
+    }
+
+     }
+      while(quit==1);
+
+      cout<<endl;
+  
+        if(row1==5|row1==8|row1==15|row1==12|row1==7)
+        {
+           ticketsales2(price, nRow,  cost, total);
+            
+            
+        }
+         else
+         {
+           tickettotal=ticketsales(price, nRow, cost,total);
+            cout<<"Total: $"<<fixed<<setprecision(2)<<tickettotal<<endl;
+        
+         }
+
+          
+        return cost;
+      
+}
+
+
+
+double ticketsales(double price[], int nRow, double cost, double total)
+{
+cout<<"There is 50% off ticket, if you are 60 years old and older"<<endl;
+
+cout<<"For 0-3 years old, you have free tickets"<<endl;
+
+
+  //trying to do promo code sales and adding up the amount.
+int age;
+cout<<"Please enter your age"<<endl;
+cin>>age;
+  cout<<endl;
+
+  total=total+cost;
+
+if(age>=60)
+{
+  
+  total=total*0.5;
+  cout<<"You have 50% off"<<endl;
+  cout<<fixed<<setprecision(2)<<"Your new total is "<<total<<endl;
+}  
+
+else if(age>=0 && age<=3)
+{
+  total=total*0;
+  cout<<"You have free tickets"<<endl;
+  cout<<fixed<<setprecision(2)<<"Your new total is "<<total<<endl;
+}
+
+
+
+return total;
+
+}
+
+double ticketsales2(double price[], int nRow, double cost, double total)
+{
+  int seats;
+  string options;
+  cout<<"Would you like to purchase 40 % off(Y/N)"<<endl;
+  cin>>options;
+
+  total=total+cost;
+      cout<<endl;
+
+  if(options=="Y"|options=="y")
+  {
+        total=total*0.4;
+    cout<<fixed<<setprecision(2)<<"Your total is $"<<total<<endl;
+  }
+  else if(options=="N"|options=="n"){
+    total=total;
+
+    cout<<"Your total is $"<<total<<endl;
+    
+    
+  }
+return total;
+
+}
+
+
+void bub_sort(int sales1[], int size)
+{
+
+  bool swap; // flag
+  int temp; // to hold the value temporarily
+
+  
+  do
+  {
+    swap=false;
+  for (int i=0; i<(size-1);i++)  // size-1 so that comparing will stay in range
+  {
+    if(sales1[i]> sales1[i+1])    // comparing two values at the sales1 range. from one value to                              the next value
+    {
+      temp=sales1[i];
+      sales1[i]=sales1[i+1];
+      sales1[i+1]=temp; 
+      swap=true;         // if it is in order there is a swap.
+
+    }
+
+  }
+  }
+
+  while(swap);      // if it is true it exits the loop. the sorting is over.
+ 
+}
